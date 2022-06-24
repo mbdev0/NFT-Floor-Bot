@@ -1,4 +1,6 @@
 from discord_webhook import DiscordWebhook, DiscordEmbed
+import requests
+import json
 LAMPORTS_PER_SOL = 1000000000
 ALERT_WEBHOOK = 'https://discord.com/api/webhooks/814320851930841109/PzSxpUmTSN46nCvEhHMziNmVc6-pFoNYCVIaSfWhSbPclB-bjDnYNrhVIYR9uNU0NfSF'
 WEBHOOK_IMAGE='https://scx2.b-cdn.net/gfx/news/2017/2-nasaastronau.jpg'
@@ -21,7 +23,13 @@ class floor_watcher():
         prev = 0
         while self.running:
 
+            url = f"https://api-mainnet.magiceden.dev/v2/collections/{self.collectionName}/stats"
+            payload={}
+            headers={}
+            response = requests.get(url, headers=headers, data=payload)
+
             floorP = float(response.json()['floorPrice']/LAMPORTS_PER_SOL)
+            print(floorP)
             prev = floorP
 
 
