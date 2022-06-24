@@ -1,10 +1,10 @@
-import requests
-import json
-import threading
 from discord_webhook import DiscordWebhook, DiscordEmbed
 LAMPORTS_PER_SOL = 1000000000
+ALERT_WEBHOOK = 'https://discord.com/api/webhooks/814320851930841109/PzSxpUmTSN46nCvEhHMziNmVc6-pFoNYCVIaSfWhSbPclB-bjDnYNrhVIYR9uNU0NfSF'
+WEBHOOK_IMAGE='https://scx2.b-cdn.net/gfx/news/2017/2-nasaastronau.jpg'
 
 currently_running = []
+
 
 class floor_watcher():
 
@@ -27,7 +27,7 @@ class floor_watcher():
 
             if self.floorprice == floorP or (floorP>prev and self.floorprice<floorP) or (prev>floorP and floorP>self.floorprice):
                 mWebhook = DiscordWebhook(
-                    url='https://discord.com/api/webhooks/814320851930841109/PzSxpUmTSN46nCvEhHMziNmVc6-pFoNYCVIaSfWhSbPclB-bjDnYNrhVIYR9uNU0NfSF',
+                    url=ALERT_WEBHOOK,
                     rate_limit_retry=True,
                     content = f"<@{user}>",
                     allowed_mentions = {'users': [user]}
@@ -46,6 +46,3 @@ class floor_watcher():
                 print("True")
                 s = True
                 return ""
-
-        def delete_task(self):
-            pass
