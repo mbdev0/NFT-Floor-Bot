@@ -1,6 +1,5 @@
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
-import json
 LAMPORTS_PER_SOL = 1000000000
 ALERT_WEBHOOK = '' #Place DiscordWebhook here
 WEBHOOK_IMAGE='https://scx2.b-cdn.net/gfx/news/2017/2-nasaastronau.jpg'
