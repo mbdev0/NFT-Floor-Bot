@@ -2,11 +2,10 @@ from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
 import json
 LAMPORTS_PER_SOL = 1000000000
-ALERT_WEBHOOK = 'https://discord.com/api/webhooks/814320851930841109/PzSxpUmTSN46nCvEhHMziNmVc6-pFoNYCVIaSfWhSbPclB-bjDnYNrhVIYR9uNU0NfSF'
+ALERT_WEBHOOK = '' #Place DiscordWebhook here
 WEBHOOK_IMAGE='https://scx2.b-cdn.net/gfx/news/2017/2-nasaastronau.jpg'
 
 currently_running = []
-
 
 class floor_watcher():
 
@@ -19,7 +18,7 @@ class floor_watcher():
     def terminate_task(self):
         self.running = False
 
-    def magic_eden(self,response,user='329651231272337418'):
+    def magic_eden(self,user):
         prev = 0
         while self.running:
 
@@ -29,7 +28,6 @@ class floor_watcher():
             response = requests.get(url, headers=headers, data=payload)
 
             floorP = float(response.json()['floorPrice']/LAMPORTS_PER_SOL)
-            print(floorP)
             prev = floorP
 
 
@@ -37,20 +35,22 @@ class floor_watcher():
                 mWebhook = DiscordWebhook(
                     url=ALERT_WEBHOOK,
                     rate_limit_retry=True,
-                    content = f"<@{user}>",
-                    allowed_mentions = {'users': [user]}
+                    content = user
                     )
                     
                 embed = DiscordEmbed(
                     title = "Alert FP Hit",
                     description = f"[{self.collectionName}](https://magiceden.io/marketplace/{self.collectionName})",
                     color = 6710937
+
                     )
+                embed.set_author(icon_url=WEBHOOK_IMAGE)
                 embed.add_embed_field(name='Collection',value=self.collectionName,inline = True)
                 embed.add_embed_field(name='Floor Price To be alerted at',value=str(self.floorprice),inline = True)
                 embed.add_embed_field(name='Current Floor Price',value=str(floorP),inline = True)
+                embed.set_footer(text='Floor Watcher - by mbdev0')
                 mWebhook.add_embed(embed)
                 mWebhook.execute()
-                print("True")
-                s = True
-                return ""
+
+                currently_running.remove(self)
+                return None
