@@ -1,9 +1,6 @@
-from xml.dom import ValidationErr
 import nextcord
 from nextcord import Interaction
 from nextcord.ext import commands
-import requests
-import json
 import threading
 from floor_watcher import *
 from apikeys import *
@@ -21,7 +18,6 @@ def webhook(title:str, description:str=None):
     embed.set_footer(text='Floor Watcher - by mbdev0')
     return embed
 
-
 @client.event
 async def on_ready():
     print('''
@@ -32,7 +28,6 @@ async def on_ready():
 @client.slash_command(name="alert",description='Alerts you when a collection hits a certain FP',guild_ids=[serverId])
 async def add_task(interaction:Interaction,collection_name:str,floor_price:float):
 
-    print(interaction.user.mention)
     url = f"https://api-mainnet.magiceden.dev/v2/collections/{collection_name}/stats"
     payload={}
     headersForApi = {
@@ -46,10 +41,7 @@ async def add_task(interaction:Interaction,collection_name:str,floor_price:float
         await interaction.response.send_message(f"Collection: **{collection_name}** is invalid/does not exist")
     else:  
         sniper = floor_watcher(collection_name,floor_price)
-        threading.Thread(target=sniper.magic_eden,args=(response,),daemon=True).start()
-
-        for i in threading.enumerate():
-            print(i.name)
+        threading.Thread(target=sniper.magic_eden,args=(interaction.user.mention,),daemon=True).start()
 
         currently_running.append(sniper)
         await interaction.response.defer()
