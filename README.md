@@ -17,6 +17,8 @@ favourite collections.
 Make sure to enable developer mode on discord, then right click on your server and press copy ID
 
     4. Add the Alert Webhook in floor_watcher.py
+    
+    5. Add your bot token in apikeys.py
 
-    5. Run bot.py
+    6. Run bot.py
     
