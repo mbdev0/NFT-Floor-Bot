@@ -4,13 +4,14 @@ from nextcord.ext import commands
 import threading
 from floor_watcher import *
 from apikeys import *
+import jsong
 
 intents = nextcord.Intents.default()
 intents.members = True
 
 client = commands.Bot(command_prefix= '$', intents=intents)
 
-serverId = 481883505727635456
+serverId = '' #Place your server ID here
 
 def webhook(title:str, description:str=None):
     embed = nextcord.Embed(title=title,description=description,colour=3093117)
