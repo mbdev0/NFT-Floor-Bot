@@ -1,7 +1,8 @@
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
+import time
 LAMPORTS_PER_SOL = 1000000000
-ALERT_WEBHOOK = '' #Place DiscordWebhook here
+ALERT_WEBHOOK = 'https://discord.com/api/webhooks/990090898119491624/ZXuuxKQRC4g-Q9PaLv65vKGJE77FWYFalkKakjV91DlJ4-mmewZ9D56H0FJUrIIAYMyG' #Place DiscordWebhook here
 WEBHOOK_IMAGE='https://scx2.b-cdn.net/gfx/news/2017/2-nasaastronau.jpg'
 
 currently_running = []
@@ -53,3 +54,5 @@ class floor_watcher():
 
                 currently_running.remove(self)
                 return None
+            
+        time.sleep(20)
